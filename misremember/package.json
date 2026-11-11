@@ -1,0 +1,17 @@
+{
+  "name": "misremember",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node tools/serve.mjs",
+    "test": "node --test tests/*.test.js",
+    "house": "/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup -P tools/blender/build_house.py --",
+    "images": "node tools/images.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "sharp": "^0.33.5",
+    "three": "0.170.0"
+  }
+}

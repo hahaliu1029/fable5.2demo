@@ -1,0 +1,130 @@
+{
+  "wallT": 0.07,
+  "door": { "w": 0.86, "h": 2.04 },
+  "materials": {
+    "ceiling": { "color": "#e6e0d2", "rough": 0.95 },
+    "paper_hall": { "color": "#bfa67c", "tex": "wallpaper_hall", "tile": 0.85, "tint": "#c9cfdc" },
+    "paper_kitchen": { "color": "#d9cf9c", "tex": "wallpaper_kitchen", "tile": 0.9 },
+    "paint_bed": { "color": "#8ea0a4" },
+    "oak": { "color": "#96703f", "tex": "floor_oak", "tile": 1.6, "gloss": 0.35 },
+    "lino": { "color": "#b9b392", "tex": "floor_lino", "tile": 1.2, "wrap": "repeat", "gloss": 0.5 },
+    "carpet": { "color": "#6e4630", "tex": "carpet", "tile": 1.4 },
+    "trim": { "color": "#ded7c6", "gloss": 0.25 },
+    "wood_dark": { "color": "#4b3221", "tex": "wood_dark", "tile": 0.9, "gloss": 0.3 },
+    "cabinet": { "color": "#cfc6a8", "gloss": 0.3 },
+    "worktop": { "color": "#3b3833", "gloss": 0.5 },
+    "tile_splash": { "color": "#d8d0b8", "tex": "tile_splash", "tile": 0.6, "wrap": "repeat", "gloss": 0.6 },
+    "metal": { "color": "#9b9a96", "gloss": 0.7 },
+    "brass": { "color": "#a8843c", "gloss": 0.7 },
+    "appliance": { "color": "#dedbd2", "gloss": 0.5 },
+    "black": { "color": "#141312", "gloss": 0.4 },
+    "linen": { "color": "#cfc8b8" },
+    "blanket": { "color": "#9a5a34", "tex": "blanket", "tile": 0.7 },
+    "shade": { "color": "#c9b48a" },
+    "rug": { "color": "#6a2a26", "tex": "rug_runner", "fit": true },
+    "glow_warm": { "color": "#ffd9a0", "emit": 6.0 },
+    "win_garden": { "color": "#3a4f86", "tex": "window_garden", "fit": true, "emit": 3.4 },
+    "win_street": { "color": "#34477c", "tex": "window_street", "fit": true, "emit": 3.4 },
+    "pic": { "color": "#888888", "fit": true },
+    "clock_face": { "color": "#e8e2d0", "fit": true },
+    "watch_face": { "color": "#e8e2d0", "fit": true },
+    "china": { "color": "#e9e6dc", "gloss": 0.6 },
+    "leather": { "color": "#3a2418", "gloss": 0.2 },
+    "coat_a": { "color": "#5b4a38" },
+    "coat_b": { "color": "#7a2e28" },
+    "curtain_a": { "color": "#b99a45" },
+    "curtain_b": { "color": "#55697a" },
+    "mat": { "color": "#3b3226" },
+    "plastic_cream": { "color": "#d6cdb4", "gloss": 0.45 },
+    "book_a": { "color": "#7b2b25" }, "book_b": { "color": "#2f4a3a" }, "book_c": { "color": "#b08a3c" }, "book_d": { "color": "#2c3a5a" },
+    "paint_pantry": { "color": "#cfc8ad" },
+    "tin_a": { "color": "#a8342a", "gloss": 0.5 }, "tin_b": { "color": "#d9cfa8", "gloss": 0.5 }, "tin_c": { "color": "#3f5f4a", "gloss": 0.5 },
+    "host_cloth": { "color": "#17140f" }, "host_skin": { "color": "#b8a892", "gloss": 0.25 },
+    "unbuilt": { "color": "#808080", "tex": "@grid", "tile": 1.0 }
+  },
+  "rooms": {
+    "hall": {
+      "size": [1.8, 7.4, 2.5], "floor": "oak", "wall": "paper_hall", "lm": 2048,
+      "doors": [
+        { "id": "front", "wall": "S", "at": 0.9, "w": 0.92 },
+        { "id": "kitchen", "wall": "W", "at": 2.3 },
+        { "id": "bed", "wall": "E", "at": 4.2, "veil": true },
+        { "id": "living", "wall": "W", "at": 5.7 },
+        { "id": "bath", "wall": "N", "at": 0.9 },
+        { "id": "extra1", "wall": "W", "at": 0.95, "veil": true },
+        { "id": "extra2", "wall": "E", "at": 6.2, "veil": true }
+      ],
+      "windows": [],
+      "props": [
+        { "p": "pendant", "at": [0.9, 1.9], "drop": 0.45, "w": 40 },
+        { "p": "pendant", "at": [0.9, 5.4], "drop": 0.45, "w": 36 },
+        { "p": "coats", "at": [1.78, 0.9], "rot": 90 },
+        { "p": "mat", "at": [0.9, 0.42], "size": [0.72, 0.44] },
+        { "p": "phone", "at": [1.62, 2.02], "rot": 100 },
+        { "p": "stand", "at": [0.2, 0.28] },
+        { "p": "console", "at": [1.62, 2.3], "rot": 90 },
+        { "p": "radiator", "at": [0.06, 4.1], "rot": -90 },
+        { "p": "rug", "at": [0.9, 3.7], "size": [0.8, 2.6] },
+        { "p": "coatrack", "at": [1.78, 0.9], "rot": 90 }
+      ],
+      "cam": { "at": [0.9, 0.5, 1.6], "look": [0.9, 6.0, 1.3] }
+    },
+    "kitchen": {
+      "size": [4.4, 5.0, 2.5], "floor": "lino", "wall": "paper_kitchen", "lm": 2048,
+      "doors": [
+        { "id": "hall", "wall": "E", "at": 1.2 },
+        { "id": "pantry", "wall": "S", "at": 1.3, "veil": true }
+      ],
+      "windows": [ { "wall": "W", "at": 2.4, "w": 1.5, "sill": 1.0, "h": 1.15, "mat": "win_garden" } ],
+      "props": [
+        { "p": "counter", "at": [0.0, 4.4], "len": 3.5 },
+        { "p": "fridge", "at": [3.98, 4.62] },
+        { "p": "table", "at": [2.2, 2.3], "size": [1.5, 0.9] },
+        { "p": "pendant", "at": [2.2, 2.3], "drop": 0.85, "w": 78 },
+        { "p": "bin", "at": [4.14, 0.3] },
+        { "p": "striplight", "at": [1.75, 4.62], "len": 2.6, "z": 1.38, "w": 10 }
+      ],
+      "cam": { "at": [4.0, 0.4, 1.6], "look": [1.2, 3.6, 1.0] }
+    },
+    "bedroom": {
+      "size": [3.6, 4.0, 2.5], "floor": "carpet", "wall": "paint_bed", "curtain": "curtain_b", "lm": 2048,
+      "doors": [
+        { "id": "hall", "wall": "W", "at": 1.0 },
+        { "id": "nook", "wall": "S", "at": 3.0, "veil": true }
+      ],
+      "windows": [ { "wall": "E", "at": 2.3, "w": 1.2, "sill": 0.95, "h": 1.2, "mat": "win_street" } ],
+      "props": [
+        { "p": "bed", "at": [1.9, 2.95], "rot": 0 },
+        { "p": "bedside", "at": [0.78, 3.72], "lamp": 32 },
+        { "p": "wardrobe", "at": [1.45, 0.31], "rot": 0 },
+        { "p": "desk", "at": [3.28, 2.3], "rot": -90 },
+        { "p": "pendant", "at": [1.8, 1.9], "drop": 0.4, "w": 16 },
+        { "p": "chair", "at": [2.72, 2.4], "rot": -75 },
+        { "p": "books", "at": [3.3, 2.62], "rot": -90 },
+        { "p": "shelf", "at": [0.0, 2.2], "rot": -90, "z": 1.5 },
+        { "p": "slippers", "at": [1.2, 2.3], "rot": 80 }
+      ],
+      "cam": { "at": [0.4, 0.4, 1.6], "look": [2.6, 3.4, 0.8] }
+    },
+    "pantry": {
+      "size": [1.9, 2.3, 2.4], "floor": "lino", "wall": "paint_pantry", "lm": 1024,
+      "doors": [ { "id": "kitchen", "wall": "N", "at": 0.95 } ],
+      "windows": [],
+      "props": [
+        { "p": "larder", "at": [0.0, 1.75], "len": 1.75, "rot": -90 },
+        { "p": "larder", "at": [1.9, 0.0], "len": 1.75, "rot": 90 },
+        { "p": "larder", "at": [0.28, 0.0], "len": 1.34, "rot": 0, "seed": 2 },
+        { "p": "bulb", "at": [0.95, 1.1], "drop": 0.5, "w": 20 }
+      ],
+      "cam": { "at": [0.95, 2.1, 1.6], "look": [0.9, 0.2, 1.0] }
+    },
+    "nook": {
+      "size": [1.6, 2.2, 2.3], "floor": "unbuilt", "wall": "unbuilt", "ceil": "unbuilt", "bare": true, "boost": 2.6, "lm": 512,
+      "doors": [ { "id": "bedroom", "wall": "N", "at": 0.8 } ],
+      "windows": [],
+      "props": [ { "p": "plinth", "at": [0.8, 0.7] } ],
+      "lights": [ { "at": [0.8, 1.0, 2.1], "w": 12, "color": [0.8, 0.9, 1.0], "r": 0.25 } ],
+      "cam": { "at": [0.8, 2.0, 1.6], "look": [0.8, 0.5, 0.9] }
+    }
+  }
+}

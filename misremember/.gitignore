@@ -1,0 +1,6 @@
+node_modules
+tools/blender/__pycache__
+tools/blender/preview
+screenshots
+assets/img/raw
+assets/lm/*.png
