@@ -9,7 +9,7 @@
 - 运行时只依赖 [three.js](https://threejs.org/) r170，其余全部手写。
 - 每个游戏都打包成一个离线的 `index.html`，双击就能玩。
 
-> 成片视频太大，没有放进仓库，请到 [Releases 页面](https://github.com/hahaliu1029/fable5.2demo/releases) 下载。
+> 成片视频太大，没有放进仓库，请到 [Releases 页面](https://github.com/hahaliu1029/fable5.2demo/releases/tag/v1.0) 下载。
 
 ![Tidebell 里的蝠鲼](tidebell/promo/stills/07-manta.jpg)
 
@@ -113,14 +113,14 @@ npm install && node build.mjs && node capture.mjs
 
 | 文件 | 内容 |
 |---|---|
-| `fable-5.2-promo.mp4` / `fable-5.2-promo-zh.mp4` | 三部宣传片合成的总片（英文 / 中文） |
-| `tidebell-promo.mp4` / `tidebell-promo-zh.mp4` | Tidebell 宣传片 |
-| `qingyun-promo.mp4` / `qingyun-promo-zh.mp4` | 青云宗宣传片 |
-| `mothlight-promo.mp4` / `mothlight-promo-zh.mp4` | MOTHLIGHT 宣传片 |
-| `gameplay.mp4` | 青云宗自动通关的最后 15 秒 |
-| `scene.mp4` | 10 秒短片《青云宗山门 · 破晓》 |
+| [`fable-5.2-promo.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/fable-5.2-promo.mp4) / [`fable-5.2-promo-zh.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/fable-5.2-promo-zh.mp4) | 三部宣传片合成的总片（英文 / 中文） |
+| [`tidebell-promo.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/tidebell-promo.mp4) / [`tidebell-promo-zh.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/tidebell-promo-zh.mp4) | Tidebell 宣传片 |
+| [`qingyun-promo.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/qingyun-promo.mp4) / [`qingyun-promo-zh.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/qingyun-promo-zh.mp4) | 青云宗宣传片 |
+| [`mothlight-promo.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/mothlight-promo.mp4) / [`mothlight-promo-zh.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/mothlight-promo-zh.mp4) | MOTHLIGHT 宣传片 |
+| [`gameplay.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/gameplay.mp4) | 青云宗自动通关的最后 15 秒 |
+| [`scene.mp4`](https://github.com/hahaliu1029/fable5.2demo/releases/download/v1.0/scene.mp4) | 10 秒短片《青云宗山门 · 破晓》 |
 
-宣传片都是用游戏本身逐帧渲染的：脚本控制镜头，物理、界面和配乐都来自游戏代码。下载地址见 [Releases 页面](https://github.com/hahaliu1029/fable5.2demo/releases)。
+宣传片都是用游戏本身逐帧渲染的：脚本控制镜头，物理、界面和配乐都来自游戏代码。下载地址见 [Releases 页面](https://github.com/hahaliu1029/fable5.2demo/releases/tag/v1.0)。
 
 ## 已知限制
 
