@@ -1,0 +1,16 @@
+{
+  "name": "tidebell",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "assets": "/Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup -P tools/blender/build_assets.py",
+    "build": "node build.mjs",
+    "serve": "node tools/serve.mjs",
+    "test": "node --test tests/*.test.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "puppeteer-core": "^25.17.0",
+    "three": "0.170.0"
+  }
+}

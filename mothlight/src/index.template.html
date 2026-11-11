@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOTHLIGHT // Vesper-9</title>
+<style>
+  :root { --cy: #7ff3ff; --mg: #ff3d9a; --am: #ffb030; --ink: rgba(4, 8, 16, 0.72); --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #04050a; overflow: hidden; color: #dff9ff; font-family: var(--mono); }
+  #view { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+
+  /* ---------- title ---------- */
+  #title { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 7vw;
+    background: linear-gradient(90deg, rgba(3, 4, 10, 0.92) 0%, rgba(3, 4, 10, 0.6) 42%, rgba(3, 4, 10, 0) 75%); transition: opacity 0.9s; }
+  #title.off { opacity: 0; pointer-events: none; }
+  #title .kicker { color: var(--mg); letter-spacing: 0.42em; font-size: 12px; margin-bottom: 14px; }
+  #title h1 { margin: 0; font: 200 clamp(44px, 8.5vw, 124px)/0.95 "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.12em;
+    color: #f2feff; text-shadow: 0 0 28px rgba(95, 242, 255, 0.75), 0 0 2px #fff; }
+  #title h1 span { color: var(--mg); text-shadow: 0 0 28px rgba(255, 61, 154, 0.8); }
+  #title p { max-width: 520px; line-height: 1.65; font-size: 14px; color: #b9d8e4; margin: 22px 0 26px; }
+  #title .keys { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; font-size: 12px; max-width: 520px; color: #9fc3d1; margin-bottom: 30px; }
+  #title .keys b { color: var(--cy); font-weight: 600; letter-spacing: 0.08em; }
+  .btns { display: flex; gap: 14px; }
+  button { font: 600 14px var(--mono); letter-spacing: 0.3em; padding: 14px 30px; cursor: pointer; background: rgba(95, 242, 255, 0.08);
+    color: var(--cy); border: 1px solid var(--cy); box-shadow: 0 0 18px rgba(95, 242, 255, 0.25), inset 0 0 12px rgba(95, 242, 255, 0.12); }
+  button:hover { background: var(--cy); color: #021016; }
+  #btn-new { border-color: #56707c; color: #9fc3d1; box-shadow: none; background: transparent; }
+
+  /* ---------- hud ---------- */
+  #hud { position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s; text-shadow: 0 0 8px rgba(0, 0, 0, 0.9); }
+  #hud.on { opacity: 1; }
+  .panel { position: absolute; background: var(--ink); border: 1px solid rgba(127, 243, 255, 0.28); backdrop-filter: blur(3px); }
+  #where { left: 22px; top: 20px; padding: 10px 16px 11px; border-left: 3px solid var(--mg); }
+  #district { font-size: 17px; letter-spacing: 0.26em; font-weight: 600; }
+  #district-tag { font-size: 11px; color: #9fc3d1; letter-spacing: 0.12em; margin-top: 3px; }
+  #top { left: 50%; top: 18px; transform: translateX(-50%); width: min(420px, 44vw); padding: 5px 10px 4px; text-align: center; }
+  #compass { width: 100%; height: 30px; display: block; }
+  #readout { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: 0.14em; color: #9fc3d1; padding-top: 3px; }
+  #scan { color: var(--cy); } #scan.dim { color: #56707c; }
+  #counts { right: 22px; top: 20px; padding: 10px 16px; display: grid; grid-template-columns: auto auto; gap: 5px 18px; font-size: 12px; letter-spacing: 0.16em; }
+  #counts span:nth-child(odd) { color: #9fc3d1; } #counts span:nth-child(even) { text-align: right; font-weight: 600; }
+  #c-echo { color: var(--cy); } #c-dist { color: var(--am); } #c-logs { color: #6dff8a; }
+  #mapbox { left: 22px; bottom: 22px; padding: 6px; }
+  #map { width: 190px; height: 190px; display: block; }
+  #mapbox small { display: block; font-size: 9px; letter-spacing: 0.14em; color: #7d9aa6; padding-top: 5px; }
+  #flash { position: absolute; inset: 0; opacity: 0; background: radial-gradient(circle, rgba(127, 243, 255, 0.55), rgba(127, 243, 255, 0) 70%); }
+  #flash.go { animation: flash 0.9s ease-out; }
+  @keyframes flash { 0% { opacity: 1; } 100% { opacity: 0; } }
+  #cross { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px; border-radius: 50%; background: rgba(223, 249, 255, 0.75); box-shadow: 0 0 6px var(--cy); }
+  #prompt { left: 50%; bottom: 150px; transform: translateX(-50%); padding: 8px 18px; font-size: 13px; letter-spacing: 0.18em; color: var(--am);
+    border-color: rgba(255, 176, 48, 0.5); opacity: 0; transition: opacity 0.2s; white-space: nowrap; }
+  #prompt.on { opacity: 1; }
+  #msg { left: 50%; bottom: 40px; transform: translateX(-50%); width: min(640px, 60vw); padding: 12px 18px 14px; min-height: 86px; opacity: 0; transition: opacity 0.4s; border-left: 3px solid var(--cy); }
+  #msg.on { opacity: 1; }
+  #msg-title { font-size: 10px; letter-spacing: 0.3em; color: var(--mg); margin-bottom: 7px; }
+  #msg-text { font-size: 14px; line-height: 1.55; }
+  #banner { position: absolute; left: 0; right: 0; top: 23%; text-align: center; opacity: 0; }
+  #banner.show { animation: banner 4.2s ease-out forwards; }
+  #banner-title { font: 200 clamp(30px, 5vw, 66px) "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0.4em; text-shadow: 0 0 26px rgba(95, 242, 255, 0.8); }
+  #banner-sub { font-size: 12px; letter-spacing: 0.5em; color: var(--mg); margin-top: 10px; text-transform: uppercase; }
+  @keyframes banner { 0% { opacity: 0; letter-spacing: 0.2em; } 12% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+  #hint { position: absolute; right: 22px; bottom: 22px; font-size: 10px; letter-spacing: 0.14em; color: #9fc3d1; padding: 8px 12px; display: none; text-align: right; line-height: 1.7; }
+  #hint.on { display: block; }
+  @media (max-width: 760px) { #map { width: 120px; height: 120px; } #where { display: none; } #msg { width: 92vw; } }
+  #speedo { position: absolute; right: 34px; bottom: 30px; text-align: right; font-family: inherit; color: #e8fbff; text-shadow: 0 0 18px rgba(0,229,255,.55); }
+  #speedo b { font-size: 84px; font-weight: 200; letter-spacing: .02em; line-height: .9; font-variant-numeric: tabular-nums; display: block; }
+  #speedo small { letter-spacing: .4em; font-size: 12px; opacity: .7; }
+  #boostbar { display: block; width: 220px; height: 4px; margin: 12px 0 0 auto; background: rgba(255,255,255,.14); }
+  #boostbar u { display: block; height: 100%; width: 100%; background: #ff2d95; box-shadow: 0 0 12px #ff2d95; }
+  #cross { display: none; }
+</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<div id="hud">
+  <div id="where" class="panel"><div id="district">—</div><div id="district-tag"></div></div>
+  <div id="top" class="panel">
+    <canvas id="compass" width="800" height="60"></canvas>
+    <div id="readout"><span id="alt">000 KM/H</span><span id="mode">GRIP</span><span id="scan">BOOST</span></div>
+  </div>
+  <div id="counts" class="panel">
+    <span>ECHOES</span><span id="c-echo">0/12</span>
+    <span>DISTRICTS</span><span id="c-dist">0/5</span>
+    <span>TIME</span><span id="c-logs">00:00.0</span>
+  </div>
+  <div id="banner"><div id="banner-title"></div><div id="banner-sub"></div></div>
+  <div id="cross"></div>
+  <div id="flash"></div>
+  <div id="prompt" class="panel"></div>
+  <div id="msg" class="panel"><div id="msg-title"></div><div id="msg-text"></div></div>
+  <div id="mapbox" class="panel"><canvas id="map" width="380" height="380"></canvas><small>N ↑ · ● next gate</small></div>
+  <div id="hint" class="panel"></div>
+  <div id="speedo"><b id="kmh">0</b><small>KM/H</small><i id="boostbar"><u></u></i></div>
+</div>
+
+<div id="title">
+  <div class="kicker">VESPER-9 · RAIN INDEX 0.93 · A CITY THAT FORGOT WHO LIT IT</div>
+  <h1>MOTH<span>LIGHT</span></h1>
+  <p><b style="letter-spacing:.3em">NIGHT RUN</b><br>The mind that ran this city's lamps was switched off and scattered into twelve echoes.
+     Drive the rain. Take every light gate, carry what is left of it through all five districts, and bring it home to the Spire.</p>
+  <div class="keys">
+    <b>W / S</b><span>throttle · brake and reverse</span>
+    <b>A / D</b><span>steer (arrow keys work too)</span>
+    <b>SPACE</b><span>handbrake — slide the tail, and sliding refills the boost</span>
+    <b>SHIFT</b><span>boost</span>
+    <b>Q</b><span>pulse the grid · <b>R</b> back to the last gate · <b>C</b> camera · <b>M</b> mute</span>
+  </div>
+  <div class="btns"><button id="btn-start">IGNITION</button><button id="btn-new">NEW RUN</button></div>
+</div>
+
+<script id="meta" type="application/json">/*META*/</script>
+<script id="glb" type="application/octet-stream">/*GLB*/</script>
+<script>/*BUNDLE*/</script>
+</body>
+</html>

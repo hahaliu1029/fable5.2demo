@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>青云宗 · 御剑采灵</title>
+<style>
+  :root { --gold: #f4d58a; --jade: #7df0d2; --ink: rgba(8, 14, 24, 0.62); --serif: "Songti SC", "STSong", "Kaiti SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", "PingFang SC", "Microsoft YaHei", serif; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #0b1220; overflow: hidden; font-family: var(--serif); color: #fff;
+    -webkit-user-select: none; user-select: none; touch-action: none; overscroll-behavior: none; }
+  canvas#c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  .hidden { display: none !important; }
+  .overlay { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px;
+    background: radial-gradient(ellipse at 50% 45%, rgba(8,14,24,0.18), rgba(8,14,24,0.66)); }
+  #title { justify-content: space-between; padding: max(7vh, 28px) 24px max(9vh, 64px); background: linear-gradient(180deg, rgba(8,14,24,0.55), rgba(8,14,24,0.05) 30%, rgba(8,14,24,0.05) 55%, rgba(8,14,24,0.7)); }
+  #done { justify-content: flex-start; padding-top: max(8vh, 30px); background: linear-gradient(180deg, rgba(8,14,24,0.72), rgba(8,14,24,0.25) 45%, rgba(8,14,24,0) 60%); }
+  h1 { margin: 0; font-size: clamp(56px, 13vmin, 132px); font-weight: 900; letter-spacing: 0.18em; text-indent: 0.18em; color: var(--gold);
+    text-shadow: 0 2px 0 #6b4a12, 0 0 28px rgba(255, 196, 96, 0.55), 0 6px 22px rgba(0,0,0,0.6); }
+  .sub { margin: 10px 0 30px; font-size: clamp(18px, 3.4vmin, 30px); letter-spacing: 0.4em; text-indent: 0.4em; color: #e8f6f2; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+  .sub small { display: block; margin-top: 8px; font-size: 0.6em; letter-spacing: 0.22em; opacity: 0.85; font-family: Georgia, "Times New Roman", serif; }
+  button { font-family: inherit; color: #fff; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .cta { font-size: clamp(20px, 3.6vmin, 30px); letter-spacing: 0.3em; text-indent: 0.3em; padding: 0.6em 1.6em; border: 1.5px solid var(--gold); border-radius: 999px;
+    background: linear-gradient(180deg, rgba(40,84,80,0.85), rgba(14,36,44,0.9)); box-shadow: 0 0 22px rgba(125, 240, 210, 0.35), inset 0 0 12px rgba(255,255,255,0.08); }
+  .cta:hover, .cta:focus-visible { background: linear-gradient(180deg, rgba(58,120,112,0.95), rgba(20,52,60,0.95)); outline: none; box-shadow: 0 0 30px rgba(125, 240, 210, 0.6); }
+  .hint { margin-top: 30px; padding: 14px 20px; border-radius: 12px; background: var(--ink); font-size: clamp(13px, 2.1vmin, 17px); line-height: 1.9; max-width: 560px;
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif; }
+  .hint b { display: inline-block; min-width: 2.2em; padding: 0 0.45em; margin: 0 0.15em; border: 1px solid rgba(255,255,255,0.45); border-radius: 5px; font-weight: 600; font-size: 0.9em; }
+  .hint .goal { color: var(--jade); }
+  #hud { position: fixed; inset: 0; pointer-events: none; }
+  .chip { position: absolute; top: max(14px, env(safe-area-inset-top)); padding: 8px 16px; border-radius: 999px; background: var(--ink); font-size: clamp(18px, 3.2vmin, 26px);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6); font-variant-numeric: tabular-nums; }
+  #count { left: 14px; color: var(--jade); letter-spacing: 0.08em; }
+  #timer { right: 14px; font-family: Georgia, serif; }
+  #toast { position: absolute; left: 50%; top: 16%; transform: translateX(-50%); padding: 10px 20px; border-radius: 12px; background: var(--ink); color: var(--gold);
+    font-size: clamp(16px, 2.8vmin, 24px); opacity: 0; transition: opacity 0.4s; max-width: 86vw; text-align: center; }
+  #toast.show { opacity: 1; }
+  #marker { position: absolute; width: 0; height: 0; display: none; }
+  #marker i { position: absolute; left: -14px; top: -14px; width: 28px; height: 28px; border: 2px solid var(--jade); border-radius: 50%; box-shadow: 0 0 10px rgba(125,240,210,0.8); }
+  #marker.off i { border: 0; border-radius: 0; box-shadow: none; left: -11px; top: -13px; width: 0; height: 0;
+    border-left: 11px solid transparent; border-right: 11px solid transparent; border-bottom: 24px solid var(--jade); filter: drop-shadow(0 0 6px rgba(125,240,210,0.9)); }
+  #marker span { position: absolute; left: 18px; top: -9px; font: 600 13px/1 -apple-system, "Segoe UI", sans-serif; color: var(--jade); text-shadow: 0 1px 3px #000; white-space: nowrap; }
+  #marker.off span { left: -12px; top: 16px; }
+  #fps { position: absolute; left: 14px; bottom: 14px; font: 12px/1 ui-monospace, Menlo, monospace; background: var(--ink); padding: 5px 8px; border-radius: 6px; }
+  .opts { position: fixed; right: 14px; bottom: max(14px, env(safe-area-inset-bottom)); display: flex; gap: 8px; }
+  .opts button { min-height: 36px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.35); background: var(--ink); font-size: 14px; }
+  .opts button:hover, .opts button:focus-visible { border-color: var(--jade); outline: none; }
+  #touch { position: fixed; inset: 0; pointer-events: none; }
+  #joy { position: absolute; left: 22px; bottom: max(64px, calc(env(safe-area-inset-bottom) + 50px)); width: 132px; height: 132px; border-radius: 50%; pointer-events: auto;
+    background: rgba(8,14,24,0.38); border: 1.5px solid rgba(255,255,255,0.35); }
+  #joyKnob { position: absolute; left: 39px; top: 39px; width: 54px; height: 54px; border-radius: 50%; background: rgba(125,240,210,0.55); }
+  .vbtn { position: absolute; right: 22px; width: 72px; height: 72px; border-radius: 50%; pointer-events: auto; font-size: 26px; background: rgba(8,14,24,0.45); border: 1.5px solid rgba(255,255,255,0.4); }
+  #btnUp { bottom: max(152px, calc(env(safe-area-inset-bottom) + 138px)); }
+  #btnDown { bottom: max(68px, calc(env(safe-area-inset-bottom) + 54px)); }
+  #done h1 { font-size: clamp(44px, 10vmin, 104px); }
+  #doneTime { font: 600 clamp(40px, 9vmin, 84px)/1.1 Georgia, serif; color: #fff; text-shadow: 0 0 22px rgba(125,240,210,0.7); font-variant-numeric: tabular-nums; margin: 6px 0 4px; }
+  #doneStats { margin-bottom: 28px; font-size: clamp(15px, 2.6vmin, 22px); color: var(--jade); letter-spacing: 0.1em; }
+  .label { font-size: clamp(14px, 2.4vmin, 20px); letter-spacing: 0.4em; text-indent: 0.4em; opacity: 0.9; margin-top: 18px; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="hud" class="hidden">
+  <div id="count" class="chip">灵气 0/20</div>
+  <div id="timer" class="chip">00:00.0</div>
+  <div id="toast"></div>
+  <div id="marker"><i></i><span></span></div>
+  <div id="fps" class="hidden"></div>
+</div>
+
+<div id="touch" class="hidden">
+  <div id="joy"><div id="joyKnob"></div></div>
+  <button id="btnUp" class="vbtn" aria-label="Rise">升</button>
+  <button id="btnDown" class="vbtn" aria-label="Dive">降</button>
+</div>
+
+<div id="title" class="overlay">
+  <div>
+    <h1>青云宗</h1>
+    <div class="sub">御剑采灵<small>SWORD FLIGHT AT DAWN</small></div>
+  </div>
+  <div>
+  <button id="startBtn" class="cta">开始御剑</button>
+  <div class="hint">
+    <div class="goal">收集 20 道灵气，点亮山门，再穿门而过 · Collect 20 spirit orbs, then fly through the gate</div>
+    <div><b>W</b><b>A</b><b>S</b><b>D</b> / <b>↑</b><b>←</b><b>↓</b><b>→</b> 御剑转向 Steer　<b>Space</b> 升 Rise　<b>Shift</b> 降 Dive</div>
+    <div>鼠标 Mouse 环顾 Look　<b>Q</b> 画质 Quality　<b>M</b> 静音 Mute　<b>F</b> FPS</div>
+    <div>触屏 Touch：左摇杆御剑 · 右侧拖动环顾 · 升 / 降 按钮</div>
+    <div>当心浮空石 · Floating rocks knock you back</div>
+  </div>
+  </div>
+</div>
+
+<div id="done" class="overlay hidden">
+  <h1>道成</h1>
+  <div class="label">用时 · TIME</div>
+  <div id="doneTime">00:00.0</div>
+  <div id="doneStats"></div>
+  <button id="restartBtn" class="cta">再来一次</button>
+</div>
+
+<div class="opts">
+  <button id="btnQ" title="Toggle quality (Q)">画质 高</button>
+  <button id="btnM" title="Toggle sound (M)">声音 开</button>
+</div>
+
+<script id="meta" type="application/json">/*__META__*/</script>
+<script id="glb" type="application/octet-stream">/*__GLB__*/</script>
+<script>
+/*__BUNDLE__*/
+</script>
+</body>
+</html>
